@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: idgenerator
+spec:
+  selector:
+    matchLabels:
+      app: idgenerator
+  template:
+    metadata:
+      labels:
+        app: idgenerator
+    spec:
+      containers:      
+      - name: idgenerator      
+        image: hkccr.ccs.tencentyun.com/wxbsocial/idgenerator
+        resources:
+          limits:
+            memory: "20M"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
+        envFrom:
+        - secretRef:
+            name: idgenerator-cfg
+      imagePullSecrets:
+       - name: regcred

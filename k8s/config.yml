@@ -1,0 +1,16 @@
+apiVersion: v1
+stringData:
+  GRPC_ADDRESS: 127.0.0.1:80
+  DATA_CENTER_ID: "1"
+  NODE_ID: "1"
+  BITS_DATA_CENTER_ID: "5"
+  BITS_NODE_ID: "5"
+  BITS_SEQUENCE: "12"
+  BASE_TIMESTAMP: "1622476800000"
+  BUFFER_SIZE: "100"
+
+kind: Secret
+metadata:
+  name: idgenerator-cfg
+type: Opaque
+
