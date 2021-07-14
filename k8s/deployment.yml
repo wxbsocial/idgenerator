@@ -19,7 +19,7 @@ spec:
             memory: "20M"
             cpu: "100m"
         ports:
-        - containerPort: 80
+        - containerPort: 8080
         envFrom:
         - secretRef:
             name: idgenerator-cfg
