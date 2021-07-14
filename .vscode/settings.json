@@ -6,4 +6,9 @@
             "--go_out=plugins=grpc:.",
         ]
     },
+    "go.lintTool": "golangci-lint",
+    "go.lintFlags": [
+   
+    ],
+    "go.lintOnSave": "workspace",
 }
