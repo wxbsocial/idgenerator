@@ -2,6 +2,10 @@ package models
 
 import (
 	"errors"
+	"log"
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 const POSITIVE_SIGN_MASK = int64(^uint64(0) >> 1)
@@ -37,7 +41,13 @@ func NewGenerator(config *Config, timeGetter TimeGetter) *Generator {
 		buffer:             make(chan int64, config.bufferSize),
 	}
 
+	// termChan := make(chan os.Signal)
+	// signal.Notify(termChan, syscall.SIGINT, syscall.SIGTERM)
+
+	// ctx, cancelFunc := context.WithCancel(context.Background())
+
 	go generator.produce()
+	// <-termChan
 
 	return &generator
 
@@ -54,7 +64,11 @@ func (gen *Generator) Get() (int64, error) {
 
 func (gen *Generator) produce() {
 
+	sigs := make(chan os.Signal, 1)
+	signal.Notify(sigs, syscall.SIGINT, syscall.SIGTERM)
+
 	latestId := int64(0)
+
 	for {
 
 		id := gen.genIdWithoutSeq(gen.Now())
@@ -65,7 +79,14 @@ func (gen *Generator) produce() {
 
 		for i := int64(0); i < gen.maxSequence; i++ {
 
-			gen.buffer <- (id | i)
+			select {
+			case gen.buffer <- (id | i):
+			case <-sigs:
+				{
+					log.Println("exit beause receive term sigs")
+					os.Exit(0)
+				}
+			}
 
 		}
 

@@ -17,17 +17,19 @@ func TestMain(m *testing.M) {
 
 	go startGRPCServer()
 	initClient()
-	defer conn.Close()
+	defer fields.conn.Close()
 
 	code := m.Run()
 
 	os.Exit(code)
 }
 
-var (
+type Fields struct {
 	conn   *grpc.ClientConn
 	client v1pb.IdGeneratorClient
-)
+}
+
+var fields Fields
 
 func initClient() {
 
@@ -36,7 +38,9 @@ func initClient() {
 		log.Fatalf("did not connect: %v", err)
 	}
 
-	client = v1pb.NewIdGeneratorClient(conn)
+	fields.conn = conn
+
+	fields.client = v1pb.NewIdGeneratorClient(fields.conn)
 
 }
 
@@ -48,7 +52,7 @@ func TestGet(t *testing.T) {
 	defer cancel()
 
 	for i := 0; i < 36; i++ {
-		result, err := client.Get(ctx, &emptypb.Empty{})
+		result, err := fields.client.Get(ctx, &emptypb.Empty{})
 
 		if err != nil {
 			t.Fatalf("get falied %v", err)

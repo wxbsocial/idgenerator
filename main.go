@@ -21,7 +21,7 @@ const (
 )
 
 var (
-	grpc_address        = common.Getenv(GRPC_ADDRESS, ":8080")
+	grpc_address        = common.Getenv(GRPC_ADDRESS, "127.0.0.1:8080")
 	data_center_id      = common.Getenv(DATA_CENTER_ID, "1")
 	node_id             = common.Getenv(NODE_ID, "1")
 	bits_data_center_id = common.Getenv(BITS_DATA_CENTER_ID, "5")
