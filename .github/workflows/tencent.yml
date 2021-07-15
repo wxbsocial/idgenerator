@@ -68,7 +68,9 @@ jobs:
          go env -w GOPRIVATE=github.com/wxbsocial 
          git config --global url."https://wxbsocial:${{ secrets.GIT_PERSONAL_ACCESS_TOKEN }}@github.com/wxbsocial".insteadOf "https://github.com/wxbsocial"
       
-      - run: go test -v -cover 
+      - name: Run test shell
+        run: |
+         sh ./test.sh
 
   setup-build-publish-deploy:
     name: Setup, Build, Publish, and Deploy

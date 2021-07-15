@@ -11,7 +11,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${workspaceFolder}",
-            "envFile": "${workspaceFolder}/.env",
+            "envFile": "${workspaceFolder}/.env.test",
         },
         {
             "name": "Launch test",
@@ -19,7 +19,7 @@
             "request": "launch",
             "mode": "test",
             "program": "${workspaceFolder}",
-            "envFile": "${workspaceFolder}/.env",
+            "envFile": "${workspaceFolder}/.env.test",
             "args": [
                 "-test.v"
             ]
